@@ -11,6 +11,9 @@ const divStyle = {
 
 export default class Router extends React.Component {
     public render(): JSX.Element {
+        const { dispatch } = this.props;
+        console.log(dispatch)
+        console.log(this.props)
         return (
             <BrowserRouter>
                 <div className="app" >

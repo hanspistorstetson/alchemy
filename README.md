@@ -1,6 +1,8 @@
 # Alchemy
 https://auth0.com/blog/secure-your-react-and-redux-app-with-jwt-authentication/#Redux-Authentication-App---Getting-Started
 
+https://redux.js.org/basics/actions
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`

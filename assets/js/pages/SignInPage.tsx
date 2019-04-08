@@ -2,6 +2,7 @@
 import React from 'react'
 import UserForm from '../components/UserForm'
 import axios from 'axios'
+import { loginUser } from "../_actions"
 
 const SIGN_IN_URL = "http://localhost:4000/api/sessions"
 const SIGN_UP_URL = "http://localhost:4000/api/users"
@@ -23,17 +24,6 @@ class SignInPage extends React.Component {
         const { isLogin, email, password } = this.state;
 
         const URL = isLogin ? SIGN_IN_URL : SIGN_UP_URL
-
-        axios.post(URL, {
-            user: {
-                email,
-                password
-            }
-        })
-            .then(resp => {
-                console.log(resp)
-            })
-            .catch(error => console.log(error))
 
 
         event.preventDefault()

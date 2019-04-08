@@ -5,8 +5,9 @@ import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 
-import IndexReducer from './reducers'
-import api from './middleware/api'
+import IndexReducer from "./reducers/IndexReducer"
+import api from './_middleware/api'
+
 
 let createStoreWithMiddleware = applyMiddleware(thunkMiddleware, api)(createStore)
 
