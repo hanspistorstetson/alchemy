@@ -199,7 +199,6 @@ class Header extends React.Component {
                             <IconButton color="inherit">
                                 <Badge badgeContent={17} color="secondary">
                                     <NotificationsIcon />
-                                    Notifications
                                 </Badge>
                             </IconButton>
                             <IconButton

@@ -1,4 +1,5 @@
 # Alchemy
+https://auth0.com/blog/secure-your-react-and-redux-app-with-jwt-authentication/#Redux-Authentication-App---Getting-Started
 
 To start your Phoenix server:
 

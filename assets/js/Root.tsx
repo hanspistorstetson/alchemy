@@ -1,24 +1,24 @@
 import * as React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import Router from './Router'
 
-import { HomePage, FetchDataPage, PageNotFound } from './pages'
-import { Header, Counter } from './components'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import thunkMiddleware from 'redux-thunk'
+
+import IndexReducer from './reducers'
+import api from './middleware/api'
+
+let createStoreWithMiddleware = applyMiddleware(thunkMiddleware, api)(createStore)
+
+let store = createStoreWithMiddleware(IndexReducer)
+
 
 export default class Root extends React.Component {
     public render(): JSX.Element {
         return (
-            <BrowserRouter>
-                <div className="app" >
-                    <Header />
-                    <Switch>
-                        <Route exact path="/" component={HomePage} />
-                        <Route path="/counter" component={Counter} />
-                        <Route path="/fetch-data" component={FetchDataPage} />
-                        <Route path="*" component={PageNotFound} />
-
-                    </Switch>
-                </div>
-            </BrowserRouter >
+            <Provider store={store}>
+                <Router />
+            </Provider>
         )
     }
 }
