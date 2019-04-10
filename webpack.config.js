@@ -13,7 +13,7 @@ module.exports = (env, options) => ({
         ]
     },
     entry: {
-        app: './assets/js/app.tsx'
+        app: './assets/js/app.jsx'
     },
     output: {
         filename: 'app.js',
@@ -22,7 +22,7 @@ module.exports = (env, options) => ({
     module: {
         rules: [
             {
-                test: /\.(js|jsx|ts|tsx)$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader'
@@ -39,7 +39,7 @@ module.exports = (env, options) => ({
         new CopyWebpackPlugin([{ from: 'assets/static/', to: '../' }])
     ],
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
+        extensions: ['.js', '.jsx', '.json']
     },
     mode: 'development'
 });
