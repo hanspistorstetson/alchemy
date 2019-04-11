@@ -17,6 +17,7 @@ defmodule Alchemy.Accounts.User do
     user
     |> cast(attrs, [:email])
     |> validate_required([:email])
+    |> unique_constraint(:email)
     |> validate_length(:email, min: 1, max: 255)
     |> validate_format(:email, ~r/@/)
   end

@@ -1,3 +1,3 @@
-import { loginSuccess, loginFailure, loginUser } from "./user.actions";
+import userActions from "./user.actions";
 
-export { loginSuccess, loginFailure, loginUser };
+export { userActions };

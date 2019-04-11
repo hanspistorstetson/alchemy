@@ -1,16 +1,13 @@
-import "../css/app.css";
-
-import "phoenix_html";
-
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import store from "./store";
+import store from "./_helpers/store";
 import Root from "./Root";
+import "bootstrap/dist/css/bootstrap.css";
 
 ReactDOM.render(
   <Provider store={store}>
-    <Root />,
+    <Root />
   </Provider>,
   document.getElementById("react-app")
 );
