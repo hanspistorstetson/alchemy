@@ -8,6 +8,7 @@ import {
   withRouter
 } from "react-router-dom";
 import { connect } from "react-redux";
+import PrivateRoute from "./PrivateRoute";
 import { userActions } from "../_actions";
 
 const fakeAuth = {
@@ -21,21 +22,6 @@ const fakeAuth = {
     setTimeout(callback, 100);
   }
 };
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      fakeAuth.isAuthenticated === true ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{ pathname: "/login", state: { from: props.location } }}
-        />
-      )
-    }
-  />
-);
 
 const Public = () => <h3>Public</h3>;
 const Protected = () => <h3>Protected</h3>;
@@ -70,24 +56,29 @@ class Login extends React.Component {
   }
 }
 
-const AuthButton = withRouter(({ history }) =>
-  fakeAuth.isAuthenticated ? (
-    <p>
-      Welcome!
-{" "}
-      <button onClick={() => fakeAuth.signout(() => history.push("/"))}>
-        Sign Out
-      </button>
-      )
-    </p>
-  ) : (
-    <p>You are not logged in</p>
-  )
-);
+const ToggleLoginButtonComp = ({ dispatch, loggedIn }) => {
+  return (
+    <button
+      onClick={() =>
+        loggedIn
+          ? dispatch(userActions.SIGN_OUT_REQUEST())
+          : dispatch(userActions.SIGN_IN_REQUEST())
+      }
+    >
+      {loggedIn ? "Log Out" : "Log In"}
+    </button>
+  );
+};
+
+const mapStateToProps = state => {
+  return { loggedIn: state.auth.loggedIn };
+};
+
+const ToggleLoginButton = connect(mapStateToProps)(ToggleLoginButtonComp);
 
 const MyRouter = () => (
   <Router>
-    <AuthButton />
+    Header
     <ul>
       <li>
         <Link to="/">Public</Link>
@@ -96,6 +87,9 @@ const MyRouter = () => (
         <Link to="/protected">Protected</Link>
       </li>
       <li>{`Status: ${fakeAuth.isAuthenticated.toString()}`}</li>
+      <li>
+        <ToggleLoginButton />
+      </li>
     </ul>
     <Switch>
       <Route exact path="/" component={Public} />
