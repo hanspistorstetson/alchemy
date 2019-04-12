@@ -8,8 +8,10 @@ import {
   withRouter
 } from "react-router-dom";
 import { connect } from "react-redux";
+
 import PrivateRoute from "./PrivateRoute";
 import { userActions } from "../_actions";
+import { SignInUpPage } from "../pages";
 
 const fakeAuth = {
   isAuthenticated: false,
@@ -93,7 +95,7 @@ const MyRouter = () => (
     </ul>
     <Switch>
       <Route exact path="/" component={Public} />
-      <Route exact path="/login" component={Login} />
+      <Route exact path="/login" component={SignInUpPage} />
       <PrivateRoute exact path="/protected" component={Protected} />
     </Switch>
   </Router>
