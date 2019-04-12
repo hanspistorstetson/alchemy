@@ -1,3 +1,3 @@
-import authentication from "./authentication.reducer.js";
+import auth from "./auth.reducer";
 
-export { authentication };
+export { auth };

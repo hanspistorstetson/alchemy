@@ -1,9 +1,8 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import store from "./_helpers/store";
-import Root from "./Root";
-import "bootstrap/dist/css/bootstrap.css";
+import { store } from "./_helpers";
+import { Root } from "./components";
 
 ReactDOM.render(
   <Provider store={store}>
