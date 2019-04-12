@@ -1,8 +1,8 @@
 defmodule AlchemyWeb.SessionView do
   use AlchemyWeb, :view
 
-  def render("show.json", %{session: session}) do
-    %{data: render_one(session, AlchemyWeb.SessionView, "session.json")}
+  def render("show.json", %{session: session, userid: userid}) do
+    %{data: render_one(session, AlchemyWeb.SessionView, "session.json"), userid: userid}
   end
 
   def render("session.json", %{session: session}) do

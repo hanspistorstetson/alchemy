@@ -19,6 +19,10 @@ defmodule AlchemyWeb.Router do
     resources "/languages", LanguageController, except: [:new, :edit]
     resources "/users", UserController, only: [:create]
     resources "/sessions", SessionController, only: [:create]
+    resources "/tweets", TweetController, except: [:new, :edit]
+
+    get "/users/tweets/:id", TweetController, :usertweets
+    get "/tweets/contains/:string", TweetController, :contains
   end
 
   scope "/", AlchemyWeb do

@@ -2,7 +2,7 @@ defmodule AlchemyWeb.UserView do
   use AlchemyWeb, :view
 
   def render("show.json", %{user: user}) do
-    %{data: render_one(user, AlchemyWeb.UserView, "user.json")}
+    %{data: render_one(user, AlchemyWeb.UserView, "user.json"), userid: user.id}
   end
 
   def render("user.json", %{user: user}) do
@@ -11,4 +11,5 @@ defmodule AlchemyWeb.UserView do
       email: user.email
     }
   end
+
 end

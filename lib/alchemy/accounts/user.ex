@@ -8,6 +8,7 @@ defmodule Alchemy.Accounts.User do
     field :password, :string, virtual: true
 
     has_many :sessions, Alchemy.Accounts.Session
+    has_many :tweets, Alchemy.Tweets.Tweet
 
     timestamps()
   end

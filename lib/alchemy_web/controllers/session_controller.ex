@@ -14,7 +14,7 @@ defmodule AlchemyWeb.SessionController do
 
         conn
         |> put_status(:created)
-        |> render("show.json", session: session)
+        |> render("show.json", session: session, userid: user.id)
 
       user ->
         conn
