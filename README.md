@@ -1,5 +1,6 @@
 # Alchemy
 https://auth0.com/blog/secure-your-react-and-redux-app-with-jwt-authentication/#Redux-Authentication-App---Getting-Started
+https://github.com/mui-org/material-ui/blob/next/examples/create-react-app/src/withRoot.js
 
 https://redux.js.org/basics/actions
 
