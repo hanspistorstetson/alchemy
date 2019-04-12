@@ -1,50 +1,108 @@
 import React from "react";
-import { Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+  Link,
+  withRouter
+} from "react-router-dom";
 import { connect } from "react-redux";
-import { history } from "../_helpers";
 import { userActions } from "../_actions";
 
-class TestComp extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loggedIn: false
-    };
+const fakeAuth = {
+  isAuthenticated: false,
+  signin(callback) {
+    this.isAuthenticated = true;
+    setTimeout(callback, 100);
+  },
+  signout(callback) {
+    this.isAuthenticated = false;
+    setTimeout(callback, 100);
   }
+};
 
-  toggleLogin = () => {
-    const { dispatch, loggedIn } = this.props;
-    loggedIn
-      ? dispatch(userActions.SIGN_OUT_REQUEST())
-      : dispatch(userActions.SIGN_IN_REQUEST());
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      fakeAuth.isAuthenticated === true ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{ pathname: "/login", state: { from: props.location } }}
+        />
+      )
+    }
+  />
+);
+
+const Public = () => <h3>Public</h3>;
+const Protected = () => <h3>Protected</h3>;
+
+class Login extends React.Component {
+  state = {
+    redirectToReferrer: false
+  };
+
+  login = () => {
+    fakeAuth.signin(() => {
+      this.setState(() => ({
+        redirectToReferrer: true
+      }));
+    });
   };
 
   render() {
+    const { from } = this.props.location.state || { from: { pathname: "/" } };
+    const { redirectToReferrer } = this.state;
+
+    if (redirectToReferrer === true) {
+      return <Redirect to={from} />;
+    }
+
     return (
       <div>
-        You are currently 
-{' '}
-{this.props.loggedIn ? "Logged In" : "Logged Out"}
-        <button onClick={this.toggleLogin}>test</button>
+        <p>You must log in to view the page</p>
+        <button onClick={this.login}>Log In</button>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({ loggedIn: state.auth.loggedIn });
-
-const Test = connect(mapStateToProps)(TestComp);
+const AuthButton = withRouter(({ history }) =>
+  fakeAuth.isAuthenticated ? (
+    <p>
+      Welcome!
+{" "}
+      <button onClick={() => fakeAuth.signout(() => history.push("/"))}>
+        Sign Out
+      </button>
+      )
+    </p>
+  ) : (
+    <p>You are not logged in</p>
+  )
+);
 
 const MyRouter = () => (
-  <div>
-    <Router history={history}>
-      Header
-      <Switch>
-        <Route exact path="/" component={Test} />
-      </Switch>
-    </Router>
-  </div>
+  <Router>
+    <AuthButton />
+    <ul>
+      <li>
+        <Link to="/">Public</Link>
+      </li>
+      <li>
+        <Link to="/protected">Protected</Link>
+      </li>
+      <li>{`Status: ${fakeAuth.isAuthenticated.toString()}`}</li>
+    </ul>
+    <Switch>
+      <Route exact path="/" component={Public} />
+      <Route exact path="/login" component={Login} />
+      <PrivateRoute exact path="/protected" component={Protected} />
+    </Switch>
+  </Router>
 );
 
 export default MyRouter;
