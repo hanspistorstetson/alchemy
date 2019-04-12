@@ -7,6 +7,8 @@ import axios from "axios";
 import TweetList from "../components/TweetList";
 import withRoot from "../_helpers/withRoot";
 
+const BASE_URL = 'http://hanspistor.com:4000'
+
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
@@ -35,7 +37,7 @@ class SearchPage extends React.Component {
   getSearchedTweets = string => {
     const { state } = this;
     axios
-      .get(`http://localhost:4000/api/tweets/contains/${string}`)
+      .get(`${BASE_URL}/api/tweets/contains/${string}`)
       .then(res => {
         console.log(res);
         this.setState({ ...state, tweetList: res.data.data });

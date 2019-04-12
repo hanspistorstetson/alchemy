@@ -7,6 +7,8 @@ import axios from "axios";
 import TweetList from "../components/TweetList";
 import withRoot from "../_helpers/withRoot";
 
+const BASE_URL = "http://hanspistor.com:4000"
+
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
@@ -36,7 +38,7 @@ class UserPage extends React.Component {
     const { state } = this;
     const userid = localStorage.getItem("userid");
     axios
-      .get(`http://localhost:4000/api/users/tweets/${userid}`)
+      .get(`${BASE_URL}/api/users/tweets/${userid}`)
       .then(res => {
         console.log(res);
         this.setState({ ...state, tweetList: res.data.data });

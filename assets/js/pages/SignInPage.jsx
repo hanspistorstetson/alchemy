@@ -4,8 +4,9 @@ import UserForm from "../components/UserForm";
 import { loginUser } from "../_actions";
 import history from "../_helpers/history";
 
-const SIGN_IN_URL = "http://localhost:4000/api/sessions";
-const SIGN_UP_URL = "http://localhost:4000/api/users";
+const BASE_URL = "http://hanspistor.com:4000"
+const SIGN_IN_URL = `${BASE_URL}/api/sessions`
+const SIGN_UP_URL = `${BASE_URL}/api/users`
 
 class SignInPage extends React.Component {
   constructor(props) {

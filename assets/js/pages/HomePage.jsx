@@ -19,6 +19,8 @@ import Main from "../components/Main";
 import TweetList from "../components/TweetList";
 import withRoot from "../_helpers/withRoot";
 
+const BASE_URL = 'http://hanspistor.com:4000'
+
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
@@ -56,14 +58,14 @@ class HomePage extends React.Component {
   getAllTweets = () => {
     const { state } = this;
     axios
-      .get("http://localhost:4000/api/tweets")
+      .get(`${BASE_URL}/api/tweets`)
       .then(res => this.setState({ ...state, tweetList: res.data.data }))
       .catch(error => console.log(error));
   };
 
   postTweet = tweetParams => {
     axios
-      .post("http://localhost:4000/api/tweets", tweetParams)
+      .post(`${BASE_URL}/api/tweets`, tweetParams)
       .then(res => this.getAllTweets());
   };
 
@@ -126,7 +128,7 @@ class HomePage extends React.Component {
               </form>
             </div>
           ) : null}
-          <div className={classes.tweetList}>
+          <div className={localStorage.getItem('userid') ? classes.tweetList : null}>
             <Typography variant="h3">List of All Posts</Typography>
             <TweetList tweets={this.state.tweetList} />
           </div>
