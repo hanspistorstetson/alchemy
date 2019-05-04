@@ -1,7 +1,10 @@
 defmodule AlchemyWeb.UserController do
   use AlchemyWeb, :controller
 
+  import Ecto
+
   alias Alchemy.Guardian
+  alias Alchemy.Tweets
   alias Alchemy.Accounts
   alias Alchemy.Accounts.User
 
@@ -11,9 +14,10 @@ defmodule AlchemyWeb.UserController do
     case Accounts.token_sign_in(email, password) do
       {:ok, token, _claims} ->
         conn
-        |> render("jwt.json", jwt: token)
+        |> render("jwt.json", jwt: token, email: email)
       _ ->
-        {:error, :unauthorized}
+        conn
+        |> render("error.json", message: "Unauthorized")
     end
   end
 
@@ -22,7 +26,7 @@ defmodule AlchemyWeb.UserController do
          {:ok, token, _claims } <- Guardian.encode_and_sign(user) do
 
       conn
-      |> render("jwt.json", jwt: token)
+      |> render("jwt.json", jwt: token, email: user_params["email"])
     end
   end
 
@@ -31,6 +35,30 @@ defmodule AlchemyWeb.UserController do
     conn
     |> render("user.json", user: user)
   end
+
+  def tweets(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+    email_list = String.split(user.email, "@")
+    [username | _ ] = email_list
+    tweets = Tweets.get_user_tweets(username)
+    conn
+    |> render("my_tweets.json", user: user, tweets: tweets)
+
+  end
+
+  def stats(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+    email_list = String.split(user.email, "@")
+    [username | _ ] = email_list
+
+    total_tweets = Accounts.get_total_tweets(username)
+
+    conn
+    |> render("stats.json", total_tweets: total_tweets)
+
+
+  end
+
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Accounts.get_user!(id)

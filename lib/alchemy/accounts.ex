@@ -10,6 +10,7 @@ defmodule Alchemy.Accounts do
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
 
   alias Alchemy.Accounts.User
+  alias Alchemy.Tweets.Tweet
 
   @doc """
   Returns the list of users.
@@ -103,6 +104,19 @@ defmodule Alchemy.Accounts do
   """
   def change_user(%User{} = user) do
     User.changeset(user, %{})
+  end
+
+  def get_total_tweets(username) do
+    Repo.aggregate(from(t in Tweet, where: t.username == ^username), :count, :id)
+  end
+
+  def get_latest_tweet(username) do
+    day = "day"
+    Repo.one(from t in Tweet, select: fragment("DATE_PART('day', inserted_at, localtimestamp)"))
+  end
+
+  def get_first_tweet(username) do
+    Repo.one(from t in Tweet, where: t.username == ^username, order_by: [t.inserted_at], limit: 1)
   end
 
   def token_sign_in(email, password) do

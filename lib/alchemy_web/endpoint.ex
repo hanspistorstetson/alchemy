@@ -23,7 +23,6 @@ defmodule AlchemyWeb.Endpoint do
 
   plug Plug.RequestId
   plug Plug.Logger
-  plug CORSPlug, origin: ["http://hanspistor.com"]
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
@@ -41,5 +40,6 @@ defmodule AlchemyWeb.Endpoint do
     key: "_alchemy_key",
     signing_salt: "dgqLEx5x"
 
+  plug CORSPlug, origin: "*"
   plug AlchemyWeb.Router
 end

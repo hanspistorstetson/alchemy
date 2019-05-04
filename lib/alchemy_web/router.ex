@@ -14,6 +14,8 @@ defmodule AlchemyWeb.Router do
   scope "/api/v1", AlchemyWeb do
     pipe_through :api
 
+
+
     post "/sign_up", UserController, :create
     post "/sign_in", UserController, :sign_in
     get "/tweets", TweetController, :index
@@ -26,5 +28,7 @@ defmodule AlchemyWeb.Router do
     pipe_through [:api, :authenticated]
 
     get "/my_user", UserController, :show
+    get "/user/tweets", UserController, :tweets
+    get "/user/statistics", UserController, :stats
   end
 end
